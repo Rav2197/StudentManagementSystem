@@ -1,13 +1,36 @@
 package com.SpringProject.StudentManagementSystem.StudentService;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity(name = "students_details") // requires Jpa to manage the entity
 public class Students {
 
+    // Static Filetering
+
+    @Id
+    @GeneratedValue
     private Integer studentId;
     private String studentName;
+
+    // Getting response without Student Contact Details - Static 
+
     private String phoneNumber;
     private LocalDate dateOfBirth;
+
+
+    @OneToMany(mappedBy = "student")
+    @JsonIgnore
+    private List<Courses> courses;
+
 
     public Students(){
 
@@ -60,5 +83,13 @@ public class Students {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';
+    }
+
+    public List<Courses> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Courses> courses) {
+        this.courses = courses;
     }
 }
